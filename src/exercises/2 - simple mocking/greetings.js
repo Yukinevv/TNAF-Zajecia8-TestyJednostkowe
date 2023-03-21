@@ -27,3 +27,38 @@ export const greetingsRandom = name => {
 	}
 	return `${greeting} ${name}!`;
 };
+
+describe('greetings', () => {
+	test('should return correct greeting for given name', () => {
+		// given
+		const originalConfig = config.lang;
+
+		// when
+		config.lang = 'en';
+		const result = greetings('Joe');
+
+		// then
+		expect(result).toEqual('Hello Joe!');
+
+		// cleanup
+		config.lang = originalConfig;
+	});
+});
+
+describe('greetingsRandom', () => {
+	test('should return correct greeting for given name', () => {
+		// given
+		const originalRandom = random.getRandomListElement;
+		const mockCallback = jest.fn(() => "Hi");
+
+		// when
+		random.getRandomListElement = mockCallback;
+		const result = greetingsRandom('Joe');
+
+		// then
+		expect(result).toEqual('Hi Joe!');
+
+		// cleanup
+		random.getRandomListElement = originalRandom;
+	});
+});
